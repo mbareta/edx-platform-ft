@@ -137,8 +137,8 @@ class RecalculateSubsectionGradeTest(ModuleStoreTestCase):
             self.assertEquals(mock_block_structure_create.call_count, 1)
 
     @ddt.data(
-        (ModuleStoreEnum.Type.mongo, 1, 23),
-        (ModuleStoreEnum.Type.split, 3, 22),
+        (ModuleStoreEnum.Type.mongo, 1, 21),
+        (ModuleStoreEnum.Type.split, 3, 20),
     )
     @ddt.unpack
     def test_query_counts(self, default_store, num_mongo_calls, num_sql_calls):
@@ -149,11 +149,9 @@ class RecalculateSubsectionGradeTest(ModuleStoreTestCase):
                 with self.assertNumQueries(num_sql_calls):
                     self._apply_recalculate_subsection_grade()
 
-    # TODO (TNL-6225) Fix the number of SQL queries so they
-    # don't grow linearly with the number of sequentials.
     @ddt.data(
-        (ModuleStoreEnum.Type.mongo, 1, 46),
-        (ModuleStoreEnum.Type.split, 3, 45),
+        (ModuleStoreEnum.Type.mongo, 1, 24),
+        (ModuleStoreEnum.Type.split, 3, 23),
     )
     @ddt.unpack
     def test_query_counts_dont_change_with_more_content(self, default_store, num_mongo_calls, num_sql_calls):
