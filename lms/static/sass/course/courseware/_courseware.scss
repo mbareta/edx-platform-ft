@@ -50,7 +50,7 @@ html.video-fullscreen {
     @include text-align(right);
     margin: 0 auto;
     max-width: grid-width(12);
-    min-width: 760px;
+    //min-width: 760px; // TNL-6409
     color: $gray;
   }
 }
