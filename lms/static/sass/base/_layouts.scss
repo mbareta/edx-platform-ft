@@ -42,10 +42,6 @@ body.view-in-course {
     padding: ($baseline/2) 0 0 0;
   }
 
-  .wrapper-course-material .course-material .course-tabs {
-    padding: 0;
-  }
-
   // content area wrapper
   .container {
     max-width: none;
@@ -104,4 +100,8 @@ body.view-in-course {
   footer#footer-edx-v3 { // shame selector to match existing
     margin-top: ($baseline*2);
   }
+}
+
+.wrapper-course-material .course-tabs { // unnecessary complicated in _courseware_header.scss
+  padding: 0;
 }
