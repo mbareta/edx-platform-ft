@@ -202,7 +202,6 @@ class AccountCreationForm(forms.Form):
                             "min_length": error_message,
                         }
                     )
-
         for field in self.extended_profile_fields:
             if field not in self.fields:
                 self.fields[field] = forms.CharField(required=False)

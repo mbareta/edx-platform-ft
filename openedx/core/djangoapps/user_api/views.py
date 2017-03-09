@@ -157,7 +157,7 @@ class LoginSessionView(APIView):
 class RegistrationView(APIView):
     """HTTP end-points for creating a new user. """
 
-    DEFAULT_FIELDS = ["email", "name", "username", "password"]
+    DEFAULT_FIELDS = ["email", "name", "username", "password", "level_of_incompetence"]
 
     EXTRA_FIELDS = [
         "first_name",
@@ -399,7 +399,7 @@ class RegistrationView(APIView):
 
         # Translators: This example name is used as a placeholder in
         # a field on the registration form meant to hold the user's name.
-        name_placeholder = _(u"Jane Doe")
+        name_placeholder = _(u"Jane Fuckin Doe")
 
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's full name.
@@ -500,6 +500,28 @@ class RegistrationView(APIView):
             field_type="select",
             options=options,
             include_default_option=True,
+            required=required
+        )
+
+    def _add_level_of_incompetence_field(self, form_desc, required=True):
+        """Add a level of incompetence field to a form description.
+
+        Arguments:
+            form_desc: A form description
+
+        Keyword Arguments:
+            required (bool): Whether this field is required; defaults to True
+
+        """
+        # Translators: This label appears above a dropdown menu on the registration
+        # form used to select the user's highest completed level of education.
+        education_level_label = _(u"Highest level of incompetence achieved")
+
+        # The labels are marked for translation in UserProfile model definition.
+        form_desc.add_field(
+            "level_of_incompetence",
+            label=education_level_label,
+            field_type="textarea",
             required=required
         )
 

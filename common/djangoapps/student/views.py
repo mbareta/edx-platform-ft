@@ -1545,7 +1545,7 @@ def _do_create_account(form, custom_form=None):
 
     profile_fields = [
         "name", "level_of_education", "gender", "mailing_address", "city", "country", "goals",
-        "year_of_birth"
+        "year_of_birth", "level_of_incompetence"
     ]
     profile = UserProfile(
         user=user,
@@ -1628,6 +1628,7 @@ def create_account_with_params(request, params):
         log.debug(u'In create_account with external_auth: user = %s, email=%s', params["name"], params["email"])
 
     extended_profile_fields = configuration_helpers.get_value('extended_profile_fields', [])
+
     enforce_password_policy = (
         settings.FEATURES.get("ENFORCE_PASSWORD_POLICY", False) and
         not do_external_auth
