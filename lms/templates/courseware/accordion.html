@@ -20,7 +20,7 @@ else:
 <a href="#${chapter['display_id']}-child" role="button" class="button-chapter chapter ${active_class}" id="${chapter['display_id']}-parent" aria-controls="${chapter['display_id']}-child" aria-expanded="false">
     <span class="group-heading ${active_class}" aria-label="${aria_label}">
         <span class="icon fa fa-caret-right" aria-hidden="true"></span>
-        ${chapter['display_name']}
+        ${chapter['display_name']} sanford student
     </span>
 </a>
 <div class="chapter-content-container" id="${chapter['display_id']}-child" tabindex="-1" role="group" aria-label="${chapter['display_name']} submenu">
@@ -72,6 +72,36 @@ else:
                 </p>
                 % endif
             </a>
+            <style>
+                .accordion-units {
+                    padding: 0.6em;
+                    margin-left: 1em;
+                    list-style: decimal-leading-zero;
+                }
+                .accordion-units li {
+                    font-weight: 300;
+                    cursor: pointer;
+                    color: dodgerblue;
+                }
+            </style>
+            <script>
+                function handleAccordionClick(unitPython) {
+                    var unit = JSON.parse(unitPython.replace(/u'/g, "'").replace(/'/g, '"')); // depythonize
+                    var tabId = '#tab_' + unit.idx;
+                    $('.accordion-units li').css('font-weight', 300);
+                    $('#accordion-unit-' + unit.idx).css('font-weight', 600);
+                    $(tabId).click();
+                }
+            </script>
+            % if section and section['active']:
+            <ol class="accordion-units">
+                % for unit in section['units']:
+                    <li id="accordion-unit-${unit['idx']}" onclick='handleAccordionClick("${str(unit)}")'>
+                        ${unit['display_name']}
+                    </li>
+                % endfor
+            </ol>
+            % endif
         </div>
         % endfor
     </div>
