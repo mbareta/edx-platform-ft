@@ -57,6 +57,8 @@ $link-color: rgb(26, 161, 222) !default;
   position: relative;
   border-bottom: none;
   z-index: 0;
+  height: 0;
+  overflow: hidden;
 
   @media print {
     display: none;

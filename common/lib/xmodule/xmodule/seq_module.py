@@ -238,6 +238,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 'id': child.scope_ids.usage_id.to_deprecated_string(),
                 'bookmarked': is_bookmarked,
                 'path': " > ".join(display_names + [child.display_name_with_default]),
+                'blocks': [{ 'display_name': c.display_name, 'idx': index } for index, c in enumerate(child.get_children())]
             }
 
             contents.append(childinfo)

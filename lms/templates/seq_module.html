@@ -50,8 +50,15 @@
   <div id="seq_contents_${idx}"
     aria-labelledby="tab_${idx}"
     aria-hidden="true"
-    class="seq_contents tex2jax_ignore asciimath2jax_ignore"
-    data-path="${item['path']}">
+    class="seq_contents tex2jax_ignore asciimath2jax_ignore">
+    <ol class="accordion-units">
+      <li>COMPONENT LIST</li>
+      % for block in item['blocks']:
+        <li>
+          ${block['display_name']}
+        </li>
+      % endfor
+    </ol>
     ${item['content']}
   </div>
   % endfor
