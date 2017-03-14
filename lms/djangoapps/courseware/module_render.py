@@ -228,7 +228,7 @@ def toc_for_course(user, request, course, active_chapter, active_section, field_
                 'display_id': display_id,
                 'url_name': chapter.url_name,
                 'sections': sections,
-                'active': chapter.url_name == active_chapter,
+                'active': chapter.url_name == active_chapter
             })
         return {
             'chapters': toc_chapters,
