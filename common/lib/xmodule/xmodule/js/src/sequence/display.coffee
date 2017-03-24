@@ -196,6 +196,7 @@ class @Sequence
       sequence_links.click @goto
 
       @el.find('.path').text(@el.find('.nav-item.active').data('path'))
+      @el.find('.dropbtn').text(@el.find('.accordion-units li.active').textContent)
 
       @sr_container.focus()
 

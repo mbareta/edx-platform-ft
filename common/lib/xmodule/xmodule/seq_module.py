@@ -221,6 +221,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 fragment.add_content(special_exam_html)
                 return fragment
 
+        xblock_list = list()
         for child in display_items:
             is_bookmarked = bookmarks_service.is_bookmarked(usage_key=child.scope_ids.usage_id)
             context["bookmarked"] = is_bookmarked
@@ -229,21 +230,26 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             rendered_child = child.render(STUDENT_VIEW, context)
             fragment.add_frag_resources(rendered_child)
 
+            usage_id = child.scope_ids.usage_id.to_deprecated_string()
+            child_display_name = child.display_name_with_default
+            xblock_list.append({'id': usage_id, 'display_name': child_display_name})
+
             childinfo = {
                 'content': rendered_child.content,
                 'page_title': getattr(child, 'tooltip_title', ''),
                 'progress_status': Progress.to_js_status_str(progress),
                 'progress_detail': Progress.to_js_detail_str(progress),
                 'type': child.get_icon_class(),
-                'id': child.scope_ids.usage_id.to_deprecated_string(),
+                'id': usage_id,
                 'bookmarked': is_bookmarked,
-                'path': " > ".join(display_names + [child.display_name_with_default]),
+                'path': " > ".join(display_names),
+                # 'path': " > ".join(display_names + [child.display_name_with_default]),
             }
-
             contents.append(childinfo)
 
         params = {
             'items': contents,
+            'xblock_list': xblock_list,
             'element_id': self.location.html_id(),
             'item_id': self.location.to_deprecated_string(),
             'position': self.position,
