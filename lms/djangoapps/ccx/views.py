@@ -183,7 +183,16 @@ def create_ccx(request, course, ccx=None):
     """
     Create a new CCX
     """
+
+    # import pdb; pdb.set_trace()
     name = request.POST.get('name')
+    delivery_mode = request.POST.get('delivery_mode')
+    location_city = request.POST.get('city')
+    location_state = request.POST.get('state')
+    location_postal_code = request.POST.get('postal_code')
+    time = request.POST.get('time')
+    fee = request.POST.get('fee')
+    course_description = request.POST.get('course_description')
 
     if hasattr(course, 'ccx_connector') and course.ccx_connector:
         # if ccx connector url is set in course settings then inform user that he can
@@ -204,7 +213,14 @@ def create_ccx(request, course, ccx=None):
     ccx = CustomCourseForEdX(
         course_id=course.id,
         coach=request.user,
-        display_name=name)
+        display_name=name,
+        delivery_mode=delivery_mode,
+        location_city=location_city,
+        location_state=location_state,
+        location_postal_code=location_postal_code,
+        time=time,
+        fee=fee,
+        course_description=course_description)
     ccx.save()
 
     # we need this for authorization

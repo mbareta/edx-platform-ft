@@ -42,21 +42,23 @@ from openedx.core.djangolib.js_utils import (
               <p class="request-response-error" id="ccx-create-message"></p>
               <form action="${create_ccx_url}" class="ccx-form" method="POST" onsubmit="return validateForm(this)">
                 <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}"/>
-                <div class="field">
+                <div class="field ">
                   <label class="sr" for="ccx_name">${_('Name your CCX')}</label>
                   <input name="name" id="ccx_name" placeholder="${_('Name your CCX')}"/><br/>
                 </div>
-                <div class="field">
-                  <label class="sr" for="ccx_name">${_('Delivery Mode')}</label>
+                <div class="field  inline">
+                  <label class="sr" for="ccx_delivery_mode">${_('Delivery Mode')}</label>
                   <select name="delivery_mode" id="ccx_delivery_mode">
-                    <option value="in-person-required"></option>
-                  </select><br/>
+                    <option value="In Person - Required">In Person - Required</option>
+                    <option value="In Person - Optional">In Person - Optional</option>
+                    <option value="Online Only">Online Only</option>
+                  </select>
                 </div>
                 <div class="field">
                   <label class="sr" for="ccx_city">${_('City')}</label>
                   <input name="city" id="ccx_city" placeholder="${_('City')}"/><br/>
                 </div>
-                <div class="field">
+                <div class="field inline">
                   <label class="sr" for="ccx_state">${_('State')}</label>
                   <input name="state" id="ccx_state" placeholder="${_('State')}"/><br/>
                 </div>
@@ -64,7 +66,7 @@ from openedx.core.djangolib.js_utils import (
                   <label class="sr" for="ccx_postal_code">${_('Postal Code')}</label>
                   <input name="postal_code" id="ccx_postal_code" placeholder="${_('Postal Code')}"/><br/>
                 </div>
-                <div class="field">
+                <div class="field inline">
                   <label class="sr" for="ccx_time">${_('Time')}</label>
                   <input name="time" id="ccx_time" placeholder="${_('Time')}"/><br/>
                 </div>
@@ -73,6 +75,10 @@ from openedx.core.djangolib.js_utils import (
                   <input name="fee" id="ccx_fee" placeholder="${_('Fee')}"/><br/>
                 </div>
                 <div class="field">
+                  <label class="sr" for="ccx_course_description">${_('Course description')}</label>
+                  <textarea name="fee" id="ccx_course_description" placeholder="${_('Course description')}"></textarea><br/>
+                </div>
+                <div class="field submit">
                   <button id="create-ccx" type="submit">${_('Create a new Custom Course for edX')}</button>
                 </div>
               </form>
