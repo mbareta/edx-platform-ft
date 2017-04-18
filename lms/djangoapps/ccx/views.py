@@ -190,7 +190,9 @@ def create_ccx(request, course, ccx=None):
     location_city = request.POST.get('city')
     location_state = request.POST.get('state')
     location_postal_code = request.POST.get('postal_code')
-    time = request.POST.get('time')
+    dateField = request.POST.get('date')
+    timeField = request.POST.get('time')
+    time = dateField + ' ' + timeField
     fee = request.POST.get('fee')
     course_description = request.POST.get('course_description')
 
