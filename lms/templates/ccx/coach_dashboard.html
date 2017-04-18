@@ -42,11 +42,11 @@ from openedx.core.djangolib.js_utils import (
               <p class="request-response-error" id="ccx-create-message"></p>
               <form action="${create_ccx_url}" class="ccx-form" method="POST" onsubmit="return validateForm(this)">
                 <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}"/>
-                <div class="field ">
+                <div class="field">
                   <label class="sr" for="ccx_name">${_('Name your CCX')}</label>
                   <input name="name" id="ccx_name" placeholder="${_('Name your CCX')}"/><br/>
                 </div>
-                <div class="field  inline">
+                <div class="field inline">
                   <label class="sr" for="ccx_delivery_mode">${_('Delivery Mode')}</label>
                   <select name="delivery_mode" id="ccx_delivery_mode">
                     <option value="In Person - Required">In Person - Required</option>

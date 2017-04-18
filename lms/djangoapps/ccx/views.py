@@ -183,8 +183,6 @@ def create_ccx(request, course, ccx=None):
     """
     Create a new CCX
     """
-
-    # import pdb; pdb.set_trace()
     name = request.POST.get('name')
     delivery_mode = request.POST.get('delivery_mode')
     location_city = request.POST.get('city')
