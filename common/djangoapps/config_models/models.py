@@ -5,6 +5,7 @@ from django.db import connection, models
 from django.contrib.auth.models import User
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from rest_framework.utils import model_meta
 

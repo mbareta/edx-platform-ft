@@ -2966,3 +2966,44 @@ AFFILIATE_COOKIE_NAME = 'affiliate_id'
 # The cache is cleared when Redirect models are saved/deleted
 REDIRECT_CACHE_TIMEOUT = None  # The length of time we cache Redirect model data
 REDIRECT_CACHE_KEY_PREFIX = 'redirects'
+
+INSTALLED_APPS += ('lms.djangoapps.ccx', 'openedx.core.djangoapps.ccxcon')
+MODULESTORE_FIELD_OVERRIDE_PROVIDERS += (
+    'lms.djangoapps.ccx.overrides.CustomCoursesForEdxOverrideProvider',
+)
+
+# Rename the exchange and queues for each variant
+CONFIG_PREFIX = "lms."
+QUEUE_VARIANT = CONFIG_PREFIX.lower()
+
+CELERY_DEFAULT_EXCHANGE = 'edx.{0}core'.format(QUEUE_VARIANT)
+
+HIGH_PRIORITY_QUEUE = 'edx.{0}core.high'.format(QUEUE_VARIANT)
+DEFAULT_PRIORITY_QUEUE = 'edx.{0}core.default'.format(QUEUE_VARIANT)
+LOW_PRIORITY_QUEUE = 'edx.{0}core.low'.format(QUEUE_VARIANT)
+HIGH_MEM_QUEUE = 'edx.{0}core.high_mem'.format(QUEUE_VARIANT)
+
+CELERY_DEFAULT_QUEUE = DEFAULT_PRIORITY_QUEUE
+CELERY_DEFAULT_ROUTING_KEY = DEFAULT_PRIORITY_QUEUE
+
+CELERY_QUEUES = {
+    HIGH_PRIORITY_QUEUE: {},
+    LOW_PRIORITY_QUEUE: {},
+    DEFAULT_PRIORITY_QUEUE: {},
+    HIGH_MEM_QUEUE: {},
+}
+
+# Setup alternate queues, to allow access to cross-process workers
+ALTERNATE_QUEUE_ENVS = os.environ.get('ALTERNATE_WORKER_QUEUES', '').split()
+ALTERNATE_QUEUES = [
+    DEFAULT_PRIORITY_QUEUE.replace(QUEUE_VARIANT, alternate + '.')
+    for alternate in ALTERNATE_QUEUE_ENVS
+]
+CELERY_QUEUES.update(
+    {
+        alternate: {}
+        for alternate in ALTERNATE_QUEUES
+        if alternate not in CELERY_QUEUES.keys()
+    }
+)
+CELERY_ROUTES = "{}celery.Router".format(QUEUE_VARIANT)

@@ -1,5 +1,5 @@
 """ receivers of course_published and library_updated events in order to trigger indexing task """
-
+import logger
 from datetime import datetime
 from pytz import UTC
 
@@ -77,3 +77,4 @@ def handle_item_deleted(**kwargs):
             gating_api.remove_prerequisite(module.location)
             # Remove any 'requires' course content milestone relationships
             gating_api.set_required_content(course_key, module.location, None, None)
+

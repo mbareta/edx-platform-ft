@@ -31,4 +31,6 @@ class Router(AlternateEnvironmentRouter):
         """
         Defines alternate environment tasks, as a dict of form { task_name: alternate_queue }
         """
-        return {}
+        return {
+            'openedx.core.djangoapps.ccxcon.tasks.listen_to_ccx_indexed': 'cms',
+        }

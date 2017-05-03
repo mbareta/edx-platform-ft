@@ -14,7 +14,7 @@ from requests.exceptions import (
 from opaque_keys.edx.keys import CourseKey
 
 from openedx.core.djangoapps.ccxcon import api
-
+from celery.contrib import rdb
 
 log = get_task_logger(__name__)
 
@@ -43,3 +43,35 @@ def update_ccxcon(course_id, cur_retry=0):
                 countdown=10 ** cur_retry  # number of seconds the task should be delayed
             )
             log.info('Requeued celery task for course key %s ; retry # %s', course_id, cur_retry + 1)
+
+
+@task()
+def index_ccx(course_key, **kwargs):  # pylint: disable=unused-argument
+    """
+    Receives the index_ccx signal sent by LMS when user changes CCX schedule and triggers handler
+    for indexing ccx.
+
+    Arguments:
+        course_key: Contains the content usage key of the item deleted
+        kwargs: "Signals receiver must accept **kwargs"
+
+    Returns:
+        None
+    """
+    # LOGGER.debug('********************************************************************** in signal handler')
+    course_key = CourseKey.from_string(course_key)
+    rdb.set_trace()
+    from cms.djangoapps.contentstore.courseware_index import CoursewareSearchIndexer
+    rdb.set_trace()
+    from contentstore.courseware_index import SearchIndexingError
+    rdb.set_trace()
+    from xmodule.modulestore.django import modulestore
+
+    rdb.set_trace()
+    with modulestore().bulk_operations(course_key):
+        try:
+            rdb.set_trace()
+            CoursewareSearchIndexer.do_course_reindex(modulestore(), course_key)
+            rdb.set_trace()
+        except SearchIndexingError as search_err:
+            print search_err  # temp

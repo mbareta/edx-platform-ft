@@ -93,6 +93,7 @@ class SignalHandler(object):
     course_deleted = django.dispatch.Signal(providing_args=["course_key"])
     library_updated = django.dispatch.Signal(providing_args=["library_key"])
     item_deleted = django.dispatch.Signal(providing_args=["usage_key", "user_id"])
+    index_ccx = django.dispatch.Signal(providing_args=["course_key"])
 
     _mapping = {
         "pre_publish": pre_publish,
@@ -100,6 +101,7 @@ class SignalHandler(object):
         "course_deleted": course_deleted,
         "library_updated": library_updated,
         "item_deleted": item_deleted,
+        "index_ccx": index_ccx
     }
 
     def __init__(self, modulestore_class):
@@ -112,6 +114,9 @@ class SignalHandler(object):
         signal = self._mapping[signal_name]
         responses = signal.send_robust(sender=self.modulestore_class, **kwargs)
 
+        print "*"*50
+        print "signal name: ", signal_name
+        print "responses when signal is sent: ", responses
         for receiver, response in responses:
             log.info('Sent %s signal to %s with kwargs %s. Response was: %s', signal_name, receiver, kwargs, response)
 
