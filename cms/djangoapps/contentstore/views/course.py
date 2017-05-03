@@ -28,13 +28,14 @@ from .component import (
 from .item import create_xblock_info
 from .library import LIBRARIES_ENABLED
 from ccx_keys.locator import CCXLocator
-from contentstore import utils
+
 from contentstore.course_group_config import (
     COHORT_SCHEME,
     GroupConfiguration,
     GroupConfigurationsValidationError,
     RANDOM_SCHEME,
 )
+from contentstore import utils
 from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update
 from contentstore.courseware_index import CoursewareSearchIndexer, SearchIndexingError
 from contentstore.push_notification import push_notification_enabled
@@ -318,6 +319,7 @@ def course_search_index_handler(request, course_key_string):
     if not GlobalStaff().has_user(request.user):
         raise PermissionDenied()
     course_key = CourseKey.from_string(course_key_string)
+
     content_type = request.META.get('CONTENT_TYPE', None)
     if content_type is None:
         content_type = "application/json; charset=utf-8"
@@ -331,6 +333,22 @@ def course_search_index_handler(request, course_key_string):
         return HttpResponse(dump_js_escaped_json({
             "user_message": _("Course has been successfully reindexed.")
         }), content_type=content_type, status=200)
+
+
+@login_required
+@ensure_csrf_cookie
+@require_GET
+def ccx_search_index_handler(ccx_key_string):
+    print "*"*50
+    print "*"*50
+    print "course py handler"
+    course_key = CourseKey.from_string(ccx_key_string)
+
+    with modulestore().bulk_operations(course_key):
+        try:
+            CoursewareSearchIndexer.do_course_reindex(modulestore(), course_key)
+        except SearchIndexingError as search_err:
+            print search_err  # temp
 
 
 def _course_outline_json(request, course_module):

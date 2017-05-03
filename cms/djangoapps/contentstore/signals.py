@@ -8,9 +8,16 @@ from django.dispatch import receiver
 from xmodule.modulestore.django import modulestore, SignalHandler
 from contentstore.courseware_index import CoursewareSearchIndexer, LibrarySearchIndexer
 from contentstore.proctoring import register_special_exams
+from .views.course import ccx_search_index_handler
+
 from openedx.core.djangoapps.credit.signals import on_course_publish
 from openedx.core.lib.gating import api as gating_api
 from util.module_utils import yield_dynamic_descriptor_descendants
+
+
+
+from celery.utils.log import get_task_logger
+LOGGER = get_task_logger(__name__)
 
 
 @receiver(SignalHandler.course_published)
@@ -20,6 +27,7 @@ def listen_for_course_publish(sender, course_key, **kwargs):  # pylint: disable=
     registering proctored exams, building up credit requirements, and performing
     search indexing
     """
+    # import pdb; pdb.set_trace()
 
     # first is to registered exams, the credit subsystem will assume that
     # all proctored exams have already been registered, so we have to do that first
@@ -77,3 +85,22 @@ def handle_item_deleted(**kwargs):
             gating_api.remove_prerequisite(module.location)
             # Remove any 'requires' course content milestone relationships
             gating_api.set_required_content(course_key, module.location, None, None)
+
+
+@receiver(SignalHandler.index_ccx)
+def listen_to_ccx_indexed(sender, course_key, **kwargs):  # pylint: disable=unused-argument
+    """
+    Receives the index_ccx signal sent by LMS when user changes CCX schedule and triggers handler
+    for indexing ccx.
+
+    Arguments:
+        course_key: Contains the content usage key of the item deleted
+        kwargs: "Signals receiver must accept **kwargs"
+
+    Returns:
+        None
+    """
+    import pdb; pdb.set_trace()
+    # LOGGER.debug('********************************************************************** in signal handler')
+    ccx_search_index_handler(course_key)
+

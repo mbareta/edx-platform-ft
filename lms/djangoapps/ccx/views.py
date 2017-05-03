@@ -466,6 +466,25 @@ def ccx_schedule(request, course, ccx=None):  # pylint: disable=unused-argument
 @ensure_csrf_cookie
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @coach_dashboard
+def ccx_index_content(request, course, ccx=None):
+    course_key = CCXLocator.from_course_locator(course.id, ccx.original_ccx_id)
+    from xmodule.modulestore.django import SignalHandler, modulestore
+
+    print "*"*50
+    print "before sending signal"
+    # import pdb; pdb.set_trace()
+    sh = SignalHandler(modulestore())
+    #
+    sh.send("index_ccx", course_key=course_key)
+    # print "*"*50
+    # print "after sending signal view"
+    url = reverse('ccx_coach_dashboard', kwargs={'course_id': course_key})
+    return redirect(url)
+
+
+@ensure_csrf_cookie
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+@coach_dashboard
 def ccx_invite(request, course, ccx=None):
     """
     Invite users to new ccx

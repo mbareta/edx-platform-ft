@@ -21,6 +21,7 @@ def course_published_handler(sender, course_key, **kwargs):  # pylint: disable=u
     """
     Consume signals that indicate course published. If course already a CCX, do nothing.
     """
+    log.info('/////////////////////////////////////////////////////////////////// HELLO')
     if not isinstance(course_key, CCXLocator):
         send_ccx_course_published.delay(unicode(course_key))
 
@@ -43,3 +44,21 @@ def send_ccx_course_published(course_key):
         )
         for rec, response in responses:
             log.info('Signal fired when course is published. Receiver: %s. Response: %s', rec, response)
+
+
+@receiver(SignalHandler.index_ccx)
+def ccx_index_handler(sender, course_key, **kwargs):
+    import pdb; pdb.set_trace()
+    log.info('************************************************************************************************** in ccx index handler')
+    send_ccx_course_published.delay(unicode(course_key))
+
+
+@CELERY_APP.task
+def send_ccx_indexed(course_key):
+    log.info('************************************************************************************************** send ccx indexed')
+    import pdb; pdb.set_trace()
+    responses = SignalHandler.index_ccx.send("index_ccx", course_key=course_key)
+    for rec, response in responses:
+            log.info('********************************************************************** Signal fired when ccx is indexed. Receiver: %s. Response: %s', rec, response)
+
+

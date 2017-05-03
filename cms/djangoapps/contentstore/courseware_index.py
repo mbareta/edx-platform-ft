@@ -354,6 +354,8 @@ class CoursewareSearchIndexer(SearchIndexerBase):
 
     UNNAMED_MODULE_NAME = ugettext_lazy("(Unnamed)")
 
+
+
     @classmethod
     def normalize_structure_key(cls, structure_key):
         """ Normalizes structure key for use in indexing """

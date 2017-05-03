@@ -13,11 +13,11 @@ from edxmako.shortcuts import render_to_response
 from contentserver.caching import del_cached_content
 
 from contentstore.utils import reverse_course_url
+from contentstore.views.exception import AssetNotFoundException
 from xmodule.contentstore.django import contentstore
 from xmodule.modulestore.django import modulestore
 from xmodule.contentstore.content import StaticContent
 from xmodule.exceptions import NotFoundError
-from contentstore.views.exception import AssetNotFoundException
 from django.core.exceptions import PermissionDenied
 from opaque_keys.edx.keys import CourseKey, AssetKey
 

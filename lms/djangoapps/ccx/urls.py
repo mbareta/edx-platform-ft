@@ -16,6 +16,8 @@ urlpatterns = patterns(
         'ccx.views.ccx_invite', name='ccx_invite'),
     url(r'^ccx_schedule$',
         'ccx.views.ccx_schedule', name='ccx_schedule'),
+    url(r'^ccx_index_content',
+        'ccx.views.ccx_index_content', name='ccx_index_content'),
     url(r'^ccx_manage_student$',
         'ccx.views.ccx_student_management', name='ccx_manage_student'),
 
