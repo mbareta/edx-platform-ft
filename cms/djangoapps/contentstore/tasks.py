@@ -125,3 +125,25 @@ def push_course_update_task(course_key_string, course_subscription_id, course_di
     # TODO Use edx-notifications library instead (MA-638).
     from .push_notification import send_push_course_update
     send_push_course_update(course_key_string, course_subscription_id, course_display_name)
+
+@task()
+def listen_to_ccx_indexed(sender, course_key, **kwargs):  # pylint: disable=unused-argument
+    """
+    Receives the index_ccx signal sent by LMS when user changes CCX schedule and triggers handler
+    for indexing ccx.
+
+    Arguments:
+        course_key: Contains the content usage key of the item deleted
+        kwargs: "Signals receiver must accept **kwargs"
+
+    Returns:
+        None
+    """
+    LOGGER.debug('********************************************************************** in signal handler')
+    course_key = CourseKey.from_string(course_key)
+
+    with modulestore().bulk_operations(course_key):
+        try:
+            CoursewareSearchIndexer.do_course_reindex(modulestore(), course_key)
+        except SearchIndexingError as search_err:
+            print search_err  # temp

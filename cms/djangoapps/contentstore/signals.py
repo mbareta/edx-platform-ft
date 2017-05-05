@@ -86,21 +86,3 @@ def handle_item_deleted(**kwargs):
             # Remove any 'requires' course content milestone relationships
             gating_api.set_required_content(course_key, module.location, None, None)
 
-
-@receiver(SignalHandler.index_ccx)
-def listen_to_ccx_indexed(sender, course_key, **kwargs):  # pylint: disable=unused-argument
-    """
-    Receives the index_ccx signal sent by LMS when user changes CCX schedule and triggers handler
-    for indexing ccx.
-
-    Arguments:
-        course_key: Contains the content usage key of the item deleted
-        kwargs: "Signals receiver must accept **kwargs"
-
-    Returns:
-        None
-    """
-    import pdb; pdb.set_trace()
-    # LOGGER.debug('********************************************************************** in signal handler')
-    ccx_search_index_handler(course_key)
-
