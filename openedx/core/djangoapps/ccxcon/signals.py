@@ -16,3 +16,14 @@ def _listen_for_course_publish(sender, course_key, **kwargs):  # pylint: disable
     # import here, because signal is registered at startup, but items in tasks are not yet able to be loaded
     from openedx.core.djangoapps.ccxcon import tasks
     tasks.update_ccxcon.delay(unicode(course_key))
+
+
+@receiver(SignalHandler.index_ccx)
+def _listen_for_index_ccx(sender, course_key, **kwargs):  # pylint: disable=unused-argument
+    """
+    TODO:
+    """
+    # update the course information on ccxcon using celery
+    # import here, because signal is registered at startup, but items in tasks are not yet able to be loaded
+    from openedx.core.djangoapps.ccxcon import tasks
+    tasks.index_ccx.delay(unicode(course_key))

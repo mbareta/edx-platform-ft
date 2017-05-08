@@ -43,3 +43,23 @@ def update_ccxcon(course_id, cur_retry=0):
                 countdown=10 ** cur_retry  # number of seconds the task should be delayed
             )
             log.info('Requeued celery task for course key %s ; retry # %s', course_id, cur_retry + 1)
+
+
+@task()
+def index_ccx(course_key, **kwargs):
+    from celery.contrib import rdb
+    from xmodule.modulestore.django import modulestore
+    from contentstore.courseware_index import SearchIndexingError
+    from cms.djangoapps.contentstore.courseware_index import CoursewareSearchIndexer
+
+    course_key = CourseKey.from_string(course_key)
+    rdb.set_trace()
+    print "AAAAAA"*50
+
+    with modulestore().bulk_operations(course_key):
+        try:
+            rdb.set_trace()
+            CoursewareSearchIndexer.do_course_reindex(modulestore(), course_key)
+            rdb.set_trace()
+        except SearchIndexingError as search_err:
+            print search_err  # temp

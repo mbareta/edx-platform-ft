@@ -44,6 +44,20 @@ def send_ccx_course_published(course_key):
         )
         for rec, response in responses:
             log.info('Signal fired when course is published. Receiver: %s. Response: %s', rec, response)
-
+#
+#
+# @receiver(SignalHandler.index_ccx)
+# def ccx_index_handler(sender, course_key, **kwargs):
+#     log.info('*************************** IN CCX/ TASKS *********************************************************************** in ccx index handler')
+#     send_ccx_course_published.delay(unicode(course_key))
+#
+#
+# @CELERY_APP.task
+# def send_ccx_indexed(course_key):
+#     log.info('*************************** IN CCX/ TASKS ********************************************************************** send ccx indexed')
+#
+#     responses = SignalHandler.index_ccx.send("index_ccx", course_key=course_key)
+#     for rec, response in responses:
+#             log.info('********************************************************************** Signal fired when ccx is indexed. Receiver: %s. Response: %s', rec, response)
 
 
