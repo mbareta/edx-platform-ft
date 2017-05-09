@@ -225,20 +225,8 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             rendered_child = child.render(STUDENT_VIEW, context)
             fragment.add_frag_resources(rendered_child)
 
-            # Create a list of xblocks which we'll use for populating the dropdown menu
-            # when displaying unit
-            xblocks = []
-            for xblock in child.get_children():
-                if str(xblock.scope_ids.block_type) == 'html':
-                    # For now, we only want to jump on html xblocks from menu
-                    xblocks.append({
-                        "id": str(xblock.scope_ids.usage_id),
-                        "display_name": str(xblock.display_name)
-                    })
-
             childinfo = {
                 'content': rendered_child.content,
-                'xblocks': json.dumps(xblocks),
                 'page_title': getattr(child, 'tooltip_title', ''),
                 'progress_status': Progress.to_js_status_str(progress),
                 'progress_detail': Progress.to_js_detail_str(progress),
