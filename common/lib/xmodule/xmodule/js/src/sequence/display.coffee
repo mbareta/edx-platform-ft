@@ -131,12 +131,8 @@ class @Sequence
   # scroll to every xblock when selected in dropdown and change the label on button
   handleOnClickDropdownItem = ->
     $('#xblocks-dropdown-items a').click ->
-      # update dropdown button text
-      $('#xblocks-dropdown-items a').click ->
-      display_name = $(this).text()
-      $('.dropbtn span.xblock-name').text display_name
       id = $(this).attr('id')
-      $title_div = $('#' + id + '.element-title')
+      $title_div = $('#' + id + '.ft-element-title')
       $('html, body').animate { scrollTop: $title_div.offset().top }, 1200
 
   # populate dropdown menu with xblocks for active unit (display_name and id).
@@ -145,7 +141,7 @@ class @Sequence
     $active_tab = $('[aria-labelledby="' + active_tab_id + '"]')
     $dropdown_items = $('#xblocks-dropdown-items').empty()
 
-    titles = $active_tab.find('.element-title')
+    titles = $active_tab.find('.ft-element-title')
     titles.each (index) ->
       $dropdown_items.append '<a id="' + titles[index].id + '">' + titles[index].textContent + '</a>'
     handleOnClickDropdownItem()
