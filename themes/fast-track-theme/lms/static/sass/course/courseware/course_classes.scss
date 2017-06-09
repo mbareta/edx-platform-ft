@@ -152,8 +152,7 @@ $ft-dark-grey: #8d8d8d;
   ol.ft p, ul.ft p {
     display: inline-block;
     vertical-align: top;
-    margin-bottom: 0;
-    margin-top: -2px;
+    margin: -2px 0 0 1rem;
   }
 
   .definition {
