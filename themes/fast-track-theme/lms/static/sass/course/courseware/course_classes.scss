@@ -114,6 +114,7 @@ $ft-dark-grey: #8d8d8d;
   ol.ft {
     list-style: none !important;
     counter-reset: li;
+    margin-left: 1rem;
 
     li {
       counter-increment: li;
@@ -122,11 +123,9 @@ $ft-dark-grey: #8d8d8d;
         content: "." counter(li);
         color: $ft-orange;
         display: inline-block;
-        width: 2em;
-        margin-left: -1.5em;
-        margin-right: 0.5em;
+        margin-left: -2rem;
         text-align: right;
-        direction: rtl
+        direction: rtl;
       }
     }
   }
@@ -139,12 +138,13 @@ $ft-dark-grey: #8d8d8d;
 
   ul.ft {
     list-style: none !important;
+    margin-left: 1em;
 
     li:before {
       content: "⋄";
       color: $ft-orange;
       display: inline-block;
-      width: 2em;
+      width: 1em;
       margin-left: -1em
     }
   }
