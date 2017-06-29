@@ -127,13 +127,6 @@ class BlockListGetForm(Form):
         if not cleaned_data.get('all_blocks', None):
             raise ValidationError({'username': ['This field is required unless all_blocks is requested.']})
 
-        # Verify all blocks can be accessed for the course.
-        if not permissions.can_access_all_blocks(requesting_user, course_key):
-            raise PermissionDenied(
-                "'{requesting_username}' does not have permission to access all blocks in '{course_key}'."
-                .format(requesting_username=requesting_user.username, course_key=unicode(course_key))
-            )
-
         # return None for user
         return None
 
