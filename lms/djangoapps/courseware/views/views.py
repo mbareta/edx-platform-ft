@@ -247,7 +247,9 @@ def build_ccx_filters(request):
     date_from = request.GET.get('date_from')
     date_to = request.GET.get('date_to')
 
-    filters = {}
+    filters = {
+        'enrollment_end_date__gte': datetime.now()
+    }
 
     if latitude and longitude and search_radius:
         latitude_boundaries, longitude_boundaries = get_coordinate_boundaries(
